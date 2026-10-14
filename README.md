@@ -262,14 +262,23 @@ telecrawl --source "/path/to/6N38VWS5BX.ru.keepcoder.Telegram" import
 
 ## Backup
 
-Create `https://github.com/steipete/backup-telecrawl` first, then initialize:
+Create a private backup repository under your own GitHub account first. Replace
+`YOUR_USER` below with that account; the repository must exist and your Git
+credentials must have write access. Initialize without pushing, inspect the
+configuration, then explicitly upload the encrypted snapshot:
 
 ```bash
-telecrawl backup init
+telecrawl backup init \
+  --repo ~/Projects/backup-telecrawl \
+  --remote https://github.com/YOUR_USER/backup-telecrawl.git \
+  --no-push
+telecrawl backup status
 telecrawl backup push
 ```
 
-The default backup config points at:
+For compatibility, the built-in default backup config still points at the
+maintainer's repository. Other users should override `--remote` as above;
+running the default commands does not create a repository in your account:
 
 ```json
 {
@@ -285,7 +294,8 @@ Use a different repository or config path:
 telecrawl backup init \
   --config ~/.telecrawl/backup.json \
   --repo ~/Projects/backup-telecrawl \
-  --remote https://github.com/steipete/backup-telecrawl.git
+  --remote https://github.com/YOUR_USER/backup-telecrawl.git \
+  --no-push
 ```
 
 Inspect backup metadata:
@@ -354,6 +364,24 @@ identity. Binary media files and cached avatar files archived in
 
 Keep `~/.telecrawl/age.key` private. If you lose it and no other recipient can
 decrypt the backup, the encrypted backup cannot be restored.
+
+### Recovery checklist
+
+- Keep a protected recovery copy of the age identity separately from the Git
+  backup, for example in a password manager or separately encrypted backup.
+  Do not commit the private identity to the backup repository.
+- Back up `~/.telecrawl/media/` separately if downloaded attachments or cached
+  avatars must survive loss of this machine. The encrypted Git shards retain
+  their metadata, not those binary files.
+- Retain the repository URL, backup configuration and a known-good snapshot
+  reference so the archive can be reconstructed on another machine.
+- Validate a restore into a throwaway database using the commands above before
+  replacing the working archive. Recover binary media separately and check
+  that restored attachments remain accessible.
+
+Git snapshots preserve the archive, not the original Telegram session. A new
+machine may need fresh Telegram authorization to resume imports; session
+credentials should not be added to the Git backup.
 
 ## Multi-Machine Backups
 
