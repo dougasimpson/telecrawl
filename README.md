@@ -265,15 +265,16 @@ telecrawl --source "/path/to/6N38VWS5BX.ru.keepcoder.Telegram" import
 Create a private backup repository under your own GitHub account first. Replace
 `YOUR_USER` below with that account; the repository must exist and your Git
 credentials must have write access. Initialize without pushing, inspect the
-configuration, then explicitly upload the encrypted snapshot:
+repo and remote printed by init, then explicitly upload the encrypted snapshot:
 
 ```bash
 telecrawl backup init \
   --repo ~/Projects/backup-telecrawl \
   --remote https://github.com/YOUR_USER/backup-telecrawl.git \
   --no-push
-telecrawl backup status
+# Check the repo and remote printed by init before uploading.
 telecrawl backup push
+telecrawl backup status
 ```
 
 For compatibility, the built-in default backup config still points at the
