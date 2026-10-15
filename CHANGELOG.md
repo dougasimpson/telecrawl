@@ -10,6 +10,7 @@
 
 ### Dependencies
 
+- Build with Go 1.27.2 and refresh CrawlKit, compression, cryptography, and Go support modules while retaining the Go 1.27.0 minimum; expose a non-publishing release dry run.
 - Refresh terminal color handling, decimal, OpenTelemetry, and Go support modules; align deadcode and golangci-lint pins between local checks and CI while retaining the Go 1.27.0 minimum.
 
 ## 0.5.0 - 2026-10-01
